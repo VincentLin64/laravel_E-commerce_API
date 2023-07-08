@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CartItem;
+use App\Models\Cart;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateCartItem;
 
@@ -47,14 +48,12 @@ class CartItemController extends Controller
             return response($oValidator->errors(), 400);
         }
         $vValidData = $oValidator->validate();
-        DB::table('cart_items')->insert([
-            'cart_id' => $vValidData['cart_id'],
+        $vCart = Cart::find($vValidData['cart_id']);
+        $vResult = $vCart->cartItems()->create([
             'product_id' => $vValidData['product_id'],
-            'quantity' => $vValidData['quantity'],
-            'created_at' => now(),
-            'updated_at' => now(),
+            'quantity' => $vValidData['quantity']
         ]);
-        return response()->json(true);
+        return response()->json($vResult);
     }
 
     /**
@@ -79,15 +78,11 @@ class CartItemController extends Controller
     public function update(UpdateCartItem $request, string $id)
     {
         $vInput = $request->validated();
-//        $vInput = $request->all();
-        DB::table('cart_items')
-            ->where('id', $id)
-            ->update(
-                [
-                    'quantity' => $vInput['quantity'],
-                    'updated_at' => now(),
-                ]
-            );
+        $vItem = CartItem::find($id);
+        // 先填上不儲存(fill=>save)
+        // $item->fill(['quantity'=> $vInput['quantity']]);
+        // $item->save();
+        $vItem->update(['quantity'=> $vInput['quantity']]);
         return response()->json(true);
     }
 
@@ -97,9 +92,8 @@ class CartItemController extends Controller
     public function destroy(string $id)
     {
         //
-        DB::table('cart_items')
-            ->where('id', $id)
-            ->delete();
+        $vItem = CartItem::find($id);
+        $vItem->delete();
         return response()->json(true);
     }
 }
