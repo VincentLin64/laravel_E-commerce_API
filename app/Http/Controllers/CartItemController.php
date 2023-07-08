@@ -91,9 +91,9 @@ class CartItemController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-        $vItem = CartItem::find($id);
-        $vItem->delete();
+        $vItem = CartItem::find($id)->delete();
+        // 撈出軟刪除的資料並強制刪除
+        // $vItem = CartItem::withoutTrashed()->find($id)->forceDelete();
         return response()->json(true);
     }
 }
