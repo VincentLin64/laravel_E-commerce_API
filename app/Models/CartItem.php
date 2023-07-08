@@ -27,4 +27,11 @@ class CartItem extends Model
     public function getCurrentPriceAttribute() {
         return $this->quantity * 10;
     }
+
+    public function product() {
+        return $this->belongsTo(Product::class);
+    }
+    public function cart() {
+        return $this->belongsTo(Cart::class);
+    }
 }
