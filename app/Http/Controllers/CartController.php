@@ -12,7 +12,8 @@ class CartController extends Controller
      */
     public function index()
     {
-        $vCart = Cart::with('cartItems')->firstOrCreate();
+        $vUser = auth()->user();
+        $vCart = Cart::with('cartItems')->where('user_id', $vUser->id)->firstOrCreate(['user_id' => $vUser->id]);
         return response($vCart);
     }
 

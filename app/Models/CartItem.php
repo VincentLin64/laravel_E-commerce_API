@@ -9,14 +9,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CartItem extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = [
-        'cart_id',
-        'product_id',
-        'quantity',
-    ];
-//    protected $guarded = [
-//        'quantity'
+//    protected $fillable = [
+//        'cart_id',
+//        'product_id',
+//        'quantity',
 //    ];
+    protected $guarded = [
+        ''
+    ];
     protected $hidden = [
         'created_at',
         'updated_at'
