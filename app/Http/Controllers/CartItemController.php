@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\UpdateCartItem;
 
 class CartItemController extends Controller
 {
@@ -45,11 +46,11 @@ class CartItemController extends Controller
         if ($oValidator->fails()) {
             return response($oValidator->errors(), 400);
         }
-        $validateData = $oValidator->validate();
+        $vValidData = $oValidator->validate();
         DB::table('cart_items')->insert([
-            'cart_id' => $validateData['cart_id'],
-            'product_id' => $validateData['product_id'],
-            'quantity' => $validateData['quantity'],
+            'cart_id' => $vValidData['cart_id'],
+            'product_id' => $vValidData['product_id'],
+            'quantity' => $vValidData['quantity'],
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -75,10 +76,10 @@ class CartItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateCartItem $request, string $id)
     {
-        //
-        $vInput = $request->all();
+        $vInput = $request->validated();
+//        $vInput = $request->all();
         DB::table('cart_items')
             ->where('id', $id)
             ->update(
