@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -11,8 +12,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
-        $data = $this->getData();
+        // NoDB
+//        $data = $this->getData();
+//        return response($data);
+
+        $data = DB::table('products')->get();
         return response($data);
     }
 
@@ -73,7 +77,7 @@ class ProductController extends Controller
         //
         $vData = $this->getData();
         $vReturnData = $vData->filter(function ($product) use ($id) {
-           return  $product['id'] != $id;
+            return $product['id'] != $id;
         })->values();
         return response($vReturnData);
     }
