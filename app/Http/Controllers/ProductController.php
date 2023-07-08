@@ -59,6 +59,10 @@ class ProductController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $vInput = $request->all();
+        $vSelectData = $this->getData()->where('id', $id)->first();
+        $vReturnData = $vSelectData->merge(collect($vInput));
+        return response($vReturnData);
     }
 
     /**
@@ -67,13 +71,18 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
+        $vData = $this->getData();
+        $vReturnData = $vData->filter(function ($product) use ($id) {
+           return  $product['id'] != $id;
+        })->values();
+        return response($vReturnData);
     }
 
     public function getData()
     {
         return collect([
-            collect(['title' => '測試商品1', 'content' => '棒', 'price' => 50]),
-            collect(['title' => '測試商品2', 'content' => '讚', 'price' => 55]),
+            collect(['id' => 0, 'title' => '測試商品1', 'content' => '棒', 'price' => 50]),
+            collect(['id' => 1, 'title' => '測試商品2', 'content' => '讚', 'price' => 55]),
         ]);
     }
 }
