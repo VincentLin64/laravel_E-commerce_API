@@ -32,7 +32,7 @@ class ProductController extends Controller
         //
         $vInputData = $request->all();
         $vGetOriginData = $this->getData();
-        array_push($vGetOriginData, $vInputData);
+        $vGetOriginData->push(collect($vInputData));
         return $vGetOriginData;
 
     }
@@ -71,9 +71,9 @@ class ProductController extends Controller
 
     public function getData()
     {
-        return [
-            ['title' => '測試商品1', 'content' => '棒', 'price' => 50],
-            ['title' => '測試商品2', 'content' => '讚', 'price' => 55],
-        ];
+        return collect([
+            collect(['title' => '測試商品1', 'content' => '棒', 'price' => 50]),
+            collect(['title' => '測試商品2', 'content' => '讚', 'price' => 55]),
+        ]);
     }
 }
