@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class CartItemController extends Controller
 {
@@ -30,10 +31,25 @@ class CartItemController extends Controller
     {
         //
         $vInput = $request->all();
+        $vRule = [
+            'cart_id' => 'required|integer',
+            'product_id' => 'required|integer',
+            'quantity' => 'required|integer'
+        ];
+        $messages = [
+            'required' => ':attribute 是必填',
+            'integer' => ':attribute 需填數字'
+        ];
+
+        $oValidator = Validator::make($vInput, $vRule, $messages);
+        if ($oValidator->fails()) {
+            return response($oValidator->errors(), 400);
+        }
+        $validateData = $oValidator->validate();
         DB::table('cart_items')->insert([
-            'cart_id' => $vInput['cart_id'],
-            'product_id' => $vInput['product_id'],
-            'quantity' => $vInput['quantity'],
+            'cart_id' => $validateData['cart_id'],
+            'product_id' => $validateData['product_id'],
+            'quantity' => $validateData['quantity'],
             'created_at' => now(),
             'updated_at' => now(),
         ]);
