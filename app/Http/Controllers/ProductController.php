@@ -30,6 +30,11 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+        $vInputData = $request->all();
+        $vGetOriginData = $this->getData();
+        array_push($vGetOriginData, $vInputData);
+        return $vGetOriginData;
+
     }
 
     /**
