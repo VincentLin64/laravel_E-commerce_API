@@ -22,3 +22,4 @@ Route::group(['middleware' => 'check_dirty'], function () {
 
 Route::resource('/carts', 'CartController');
 Route::resource('/cart-items', 'CartItemController');
+Route::post('/signup', 'AuthController@signup');
