@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CartItem;
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateCartItem;
@@ -44,13 +45,21 @@ class CartItemController extends Controller
         ];
 
         $oValidator = Validator::make($vInput, $vRule, $messages);
+
+
         if ($oValidator->fails()) {
             return response($oValidator->errors(), 400);
         }
         $vValidData = $oValidator->validate();
+
+        $vProduct = Product::find($vValidData['product_id']);
+        if (!$vProduct->checkQuantity($vValidData['quantity'])){
+            return response($vProduct->title.' 數量不足', 400);
+        }
+
         $vCart = Cart::find($vValidData['cart_id']);
         $vResult = $vCart->cartItems()->create([
-            'product_id' => $vValidData['product_id'],
+            'product_id' => $vProduct->id,
             'quantity' => $vValidData['quantity']
         ]);
         return response()->json($vResult);
