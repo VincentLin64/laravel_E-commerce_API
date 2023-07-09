@@ -64,4 +64,15 @@ class CartController extends Controller
     {
         //
     }
+
+    public function checkout() {
+        $vUser = auth()->user();
+        $vCart = $vUser->carts()->where('checkouted', false)->with('cartItems')->first();
+        if ($vCart){
+            $result = $vCart->checkout();
+            return response($result);
+        }else{
+            return response('沒有購物車', 400);
+        }
+    }
 }
