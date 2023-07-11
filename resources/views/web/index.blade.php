@@ -1,16 +1,11 @@
-<head>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-</head>
+@extends('layout.app')
+@section('content')
 <style>
     .spcial-text{
         text-align: center;
         background-color: green;
     }
 </style>
-<div>
-    <a style="margin-top: 40px" href="/">商品列表</a>
-    <a href="/contact_us">聯絡我們</a>
-</div>
 <h2>商品列表</h2>
 <img src="https://imgs.gvm.com.tw/upload/gallery/20221204/125075.jpg" alt="">
 <table>
@@ -57,3 +52,4 @@
         })
     })
 </script>
+@endsection

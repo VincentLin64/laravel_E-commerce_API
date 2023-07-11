@@ -1,7 +1,5 @@
-<div>
-    <a href="/">商品列表</a>
-    <a href="/contact_us">聯絡我們</a>
-</div>
+@extends('layout.app')
+@section('content')
 <h3>聯絡我們</h3>
 <form action="">
     請問你是： <input type="text"> <br>
@@ -12,3 +10,4 @@
         <option value="食物">食物</option>
     </select>
 </form>
+@endsection
