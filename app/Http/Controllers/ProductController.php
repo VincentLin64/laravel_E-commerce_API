@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -88,5 +89,14 @@ class ProductController extends Controller
             collect(['id' => 0, 'title' => '測試商品1', 'content' => '棒', 'price' => 50]),
             collect(['id' => 1, 'title' => '測試商品2', 'content' => '讚', 'price' => 55]),
         ]);
+    }
+    public function checkProduct (Request $request){
+        $vInput = $request->input('product_id');
+        $vProduct = Product::find($vInput);
+        if ($vProduct->quantity > 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

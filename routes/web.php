@@ -22,7 +22,7 @@ Route::get('/contact_us', 'WebController@contactUs');
 Route::group(['middleware' => 'check_dirty'], function () {
     Route::resource('/products', 'ProductController');
 });
-
+Route::post('/products/check-product', 'ProductController@checkProduct');
 
 Route::post('/signup', 'AuthController@signup');
 Route::post('/login', 'AuthController@login');
