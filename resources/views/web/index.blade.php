@@ -1,5 +1,11 @@
+<style>
+    .spcial-text{
+        text-align: center;
+        background-color: green;
+    }
+</style>
 <div>
-    <a href="/">商品列表</a>
+    <a style="margin-top: 40px" href="/">商品列表</a>
     <a href="/contact_us">聯絡我們</a>
 </div>
 <h2>商品列表</h2>
@@ -16,9 +22,14 @@
     <tbody>
         @foreach($products as $product)
             <tr>
-                <td>{{$product->title}}</td>
+                @if($product->id == 1)
+                    <td class="spcial-text">{{$product->title}}</td>
+                @else
+                    <td>{{$product->title}}</td>
+                @endif
+
                 <td>{{$product->content}}</td>
-                <td>{{$product->price}}</td>
+                <td style="{{ $product->price < 200 ? 'color : red; font-size:22px' : ''}}">{{$product->price}}</td>
                 <td></td>
             </tr>
         @endforeach
