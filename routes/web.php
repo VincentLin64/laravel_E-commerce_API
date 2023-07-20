@@ -27,6 +27,7 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin'], function() {
     Route::get('/orders/', 'OrderController@index');
     Route::post('/orders/{id}/delivery', 'OrderController@delivery');
 });
+Route::post('read-notification', 'WebController@readNotification');
 
 
 
