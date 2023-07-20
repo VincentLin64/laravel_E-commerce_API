@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Notifications\OrderDelivery;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -25,5 +26,16 @@ class OrderController extends Controller
 
         $vReturnData = ['orders' => $vOrders, 'orderCount'=> $orderCounts, 'orderPages' => $orderPages];
         return view('admin.orders.index', $vReturnData);
+    }
+
+    public function delivery($id){
+        $vOrder = Order::find($id);
+        if ($vOrder->is_shipped){
+            return response(['result'=> false]);
+        }else{
+            $vOrder->update(['is_shipped' => true]);
+            $vOrder->user->notify(new OrderDelivery());
+            return response(['result'=> true]);
+        }
     }
 }

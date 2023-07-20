@@ -25,7 +25,9 @@ Route::group(['middleware' => 'check_dirty'], function () {
 Route::post('/products/check-product', 'ProductController@checkProduct');
 Route::group(['prefix'=>'admin', 'namespace'=>'Admin'], function() {
     Route::get('/orders/', 'OrderController@index');
+    Route::post('/orders/{id}/delivery', 'OrderController@delivery');
 });
+
 
 
 Route::post('/signup', 'AuthController@signup');
