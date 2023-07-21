@@ -24,8 +24,18 @@ Route::group(['middleware' => 'check_dirty'], function () {
 });
 Route::post('/products/check-product', 'ProductController@checkProduct');
 Route::group(['prefix'=>'admin', 'namespace'=>'Admin'], function() {
-    Route::get('/orders/', 'OrderController@index');
-    Route::post('/orders/{id}/delivery', 'OrderController@delivery');
+    // admin/orders
+    Route::group(['prefix'=>'orders'], function(){
+        Route::get('/', 'OrderController@index');
+        Route::post('/{id}/delivery', 'OrderController@delivery');
+    });
+
+    // admin/tools
+    Route::group(['prefix'=>'tools'], function(){
+        Route::post('/update-product-price', 'ToolController@updateProductPrice');
+        Route::post('/create-product-redis', 'ToolController@createProductRedis');
+    });
+
 });
 Route::post('read-notification', 'WebController@readNotification');
 
