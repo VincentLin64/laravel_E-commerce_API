@@ -33,6 +33,7 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin'], function() {
     // admin/tools
     Route::group(['prefix'=>'tools'], function(){
         Route::post('/update-product-price', 'ToolController@updateProductPrice');
+        Route::post('/create-product-redis', 'ToolController@createProductRedis');
     });
 
 });

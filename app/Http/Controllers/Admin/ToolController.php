@@ -18,5 +18,8 @@ class ToolController extends Controller
             UpdateProductPrice::dispatch($product)->onQueue('tool');
         }
     }
-    
+
+    public function createProductRedis(){
+        Redis::set('products', json_encode(Product::all()));
+    }
 }
