@@ -23,6 +23,7 @@ Route::group(['middleware' => 'check_dirty'], function () {
     Route::resource('/products', 'ProductController');
 });
 Route::post('/products/check-product', 'ProductController@checkProduct');
+Route::get('/products/{id}/shared-url', 'ProductController@shareUrl');
 Route::group(['prefix'=>'admin', 'namespace'=>'Admin'], function() {
     // admin/orders
     Route::group(['prefix'=>'orders'], function(){

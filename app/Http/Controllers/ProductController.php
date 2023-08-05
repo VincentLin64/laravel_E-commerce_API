@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\ShortUrlService;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -100,5 +101,12 @@ class ProductController extends Controller
         }else{
             return false;
         }
+    }
+
+    public function shareUrl($id)
+    {
+        $service = new ShortUrlService();
+        $url = $service->makeShortUrl("http://127.0.0.1:2080/products/$id");
+        return response(['url' => $url]);
     }
 }
