@@ -64,6 +64,10 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'replace_placeholders' => true,
         ],
+        'url_shorten' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/url_shorten.log'),
+        ],
 
         'daily' => [
             'driver' => 'daily',
