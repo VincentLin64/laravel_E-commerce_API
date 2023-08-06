@@ -18,6 +18,9 @@
 
 {{--{{DB::enableQueryLog()}}--}}
 <span>產品總數 {{ $productCount }}</span>
+<div>
+    <input type="button" class="import" value="匯入Excel">
+</div>
 <table>
     <thead>
     <tr>
@@ -58,9 +61,13 @@
 </div>
 <script>
     const uploadImageModal = new bootstrap.Modal(document.getElementById('upload-image'));
+    const importExcelModal = new bootstrap.Modal(document.getElementById('import'));
     $('.upload_image').click(function () {
         $('#product_id').val($(this).data('id'));
         uploadImageModal.show();
+    })
+    $('.import').click(function () {
+        importExcelModal.show();
     })
 </script>
 @endsection

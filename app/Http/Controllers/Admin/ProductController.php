@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\ProductImport;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -39,5 +41,11 @@ class ProductController extends Controller
         ]);
         return redirect()->back();
 
+    }
+    public function importExcel(Request $request){
+        $file = $request->file('excel');
+        Excel::import(new ProductImport(), $file);
+
+        return redirect()->back();
     }
 }

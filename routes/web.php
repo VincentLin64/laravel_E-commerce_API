@@ -33,6 +33,7 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin'], function() {
     Route::group(['prefix'=>'products'], function(){
         Route::get('/', 'ProductController@index');
         Route::post('/upload-image', 'ProductController@uploadImage');
+        Route::post('/excel/import', 'ProductController@importExcel');
     });
     // admin/orders
     Route::group(['prefix'=>'orders'], function(){
