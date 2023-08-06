@@ -40,6 +40,8 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin'], function() {
         Route::get('/', 'OrderController@index');
         Route::post('/{id}/delivery', 'OrderController@delivery');
         Route::get('/excel/export', 'OrderController@export');
+        Route::get('/excel/export-by-shipped', 'OrderController@exportByShipped');
+
     });
 
     // admin/tools

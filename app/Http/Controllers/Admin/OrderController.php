@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\OrdersExport;
+use App\Exports\OrdersMultipleExport;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -43,5 +44,8 @@ class OrderController extends Controller
 
     public function export() {
         return Excel::download(new OrdersExport, 'orders.xlsx');
+    }
+    public function exportByShipped() {
+        return Excel::download(new OrdersMultipleExport, 'orders_by_shipped.xlsx');
     }
 }
