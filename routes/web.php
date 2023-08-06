@@ -18,13 +18,22 @@ use Illuminate\Support\Facades\Route;
 //});
 Route::get('/', 'WebController@index');
 Route::get('/contact_us', 'WebController@contactUs');
+Route::post('read-notification', 'WebController@readNotification');
 
+// products
 Route::group(['middleware' => 'check_dirty'], function () {
     Route::resource('/products', 'ProductController');
 });
 Route::post('/products/check-product', 'ProductController@checkProduct');
 Route::get('/products/{id}/shared-url', 'ProductController@shareUrl');
+
+// admin
 Route::group(['prefix'=>'admin', 'namespace'=>'Admin'], function() {
+    // admin/products
+    Route::group(['prefix'=>'products'], function(){
+        Route::get('/', 'ProductController@index');
+        Route::post('/upload-image', 'ProductController@uploadImage');
+    });
     // admin/orders
     Route::group(['prefix'=>'orders'], function(){
         Route::get('/', 'OrderController@index');
@@ -38,10 +47,8 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin'], function() {
     });
 
 });
-Route::post('read-notification', 'WebController@readNotification');
 
-
-
+// auth
 Route::post('/signup', 'AuthController@signup');
 Route::post('/login', 'AuthController@login');
 Route::group(['middleware' => 'auth:api'], function (){

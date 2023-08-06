@@ -1,3 +1,6 @@
+@extends('layout.admin_app')
+@section('content')
+
 <h2>後台 - 訂單列表</h2>
 @php
 //use Illuminate\Support\Facades\DB;
@@ -36,3 +39,4 @@
     @endfor
 </div>
 {{--{{dd(DB::getQueryLog())}}--}}
+@endsection
