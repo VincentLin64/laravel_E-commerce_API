@@ -7,6 +7,9 @@
 @endphp
 {{--{{DB::enableQueryLog()}}--}}
 <span>訂單總數 {{ $orderCount }}</span>
+<div>
+    <a href="/admin/orders/excel/export">匯出訂單</a>
+</div>
 <table>
     <thead>
         <tr>

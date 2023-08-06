@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\OrdersExport;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Notifications\OrderDelivery;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends Controller
 {
@@ -37,5 +39,9 @@ class OrderController extends Controller
             $vOrder->user->notify(new OrderDelivery());
             return response(['result'=> true]);
         }
+    }
+
+    public function export() {
+        return Excel::download(new OrdersExport, 'orders.xlsx');
     }
 }
