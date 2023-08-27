@@ -3,6 +3,7 @@
 namespace Tests\Feature\Controller;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\CartItem;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -52,5 +53,53 @@ class CartItemControllerTest extends TestCase
             ['cart_id' => $cart->id, 'product_id' => $product->id, 'quantity' => 999]
         );
         $response->assertStatus(400);
+    }
+
+    public function testUpdate()
+    {
+        $cart = $this->fakeUser->carts()->create();
+        $product = Product::create([
+            'title' => 'test Product',
+            'content' => 'cool',
+            'price' => 10,
+            'quantity' => 10
+        ]);
+        $cartItem = $cart->cartItems()->create([
+            'product_id' => $product->id,
+            'quantity' => 10,
+        ]);
+        $response = $this->call(
+            'PUT',
+            'cart-items/' . $cartItem->id,
+            ['quantity' => 1]
+        );
+        $this->assertEquals('true', $response->getContent());
+
+        $cartItem->refresh();
+
+        $this->assertEquals(1, $cartItem->quantity);
+    }
+
+    public function testDestroy()
+    {
+        $cart = $this->fakeUser->carts()->create();
+        $product = Product::create([
+            'title' => 'test Product',
+            'content' => 'cool',
+            'price' => 10,
+            'quantity' => 10
+        ]);
+        $cartItem = $cart->cartItems()->create([
+            'product_id' => $product->id,
+            'quantity' => 10,
+        ]);
+        $response = $this->call(
+            'DELETE',
+            'cart-items/' . $cartItem->id
+        );
+        $response->assertOk();
+        $cartItem = CartItem::find($cartItem->id);
+        $this->assertNull($cartItem);
+
     }
 }
