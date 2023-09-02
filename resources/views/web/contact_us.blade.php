@@ -9,5 +9,8 @@
         <option value="物品">物品</option>
         <option value="食物">食物</option>
     </select>
+    <br>
+    <input type="submit" value="送出">
 </form>
+
 @endsection

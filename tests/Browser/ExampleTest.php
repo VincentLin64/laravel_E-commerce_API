@@ -35,6 +35,21 @@ class ExampleTest extends DuskTestCase
                     ->with('.spcial-text', function ($text) {
                         $text->assertSee('固定資料');
                     });
+            $browser->click('.check_product')
+                    ->waitForDialog(5)
+                    ->assertDialogOpened('商品數量充足')
+                    ->acceptDialog();
+//            eval(\Psy\sh());
+        });
+    }
+
+    public function testFillForm(){
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/contact_us')
+                ->value('[name="name"]', 'cool')
+                ->select('[name="product"]' , '食物')
+                ->press('送出')
+                ->assertQueryStringHas('product', '食物');
 //            eval(\Psy\sh());
         });
     }
