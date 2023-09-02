@@ -3,6 +3,7 @@
 namespace Tests\Feature\Controller;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
 use App\Models\User;
@@ -33,13 +34,15 @@ class CartItemControllerTest extends TestCase
 
     public function testStore()
     {
-        $cart = $this->fakeUser->carts()->create();
-        $product = Product::create([
-            'title' => 'test Product',
-            'content' => 'cool',
-            'price' => 10,
-            'quantity' => 10
-        ]);
+//        $cart = $this->fakeUser->carts()->create();
+        $cart = Cart::factory()->create();
+        $product = Product::factory()->create();
+//        $product = Product::create([
+//            'title' => 'test Product',
+//            'content' => 'cool',
+//            'price' => 10,
+//            'quantity' => 10
+//        ]);
         $response = $this->call(
             'POST',
             'cart-items',
@@ -47,27 +50,48 @@ class CartItemControllerTest extends TestCase
         );
         $response->assertOk();
 
+        $product = Product::factory()->less()->create();
+//        $product = Product::create([
+//            'title' => 'test Product',
+//            'content' => 'cool',
+//            'price' => 10,
+//            'quantity' => 10
+//        ]);
         $response = $this->call(
             'POST',
             'cart-items',
-            ['cart_id' => $cart->id, 'product_id' => $product->id, 'quantity' => 999]
+            ['cart_id' => $cart->id, 'product_id' => $product->id, 'quantity' => 10]
         );
+
+        $this->assertEquals($product->title.' 數量不足', $response->getContent());
+
+        $response = $this->call(
+            'POST',
+            'cart-items',
+            ['cart_id' => $cart->id, 'product_id' => $product->id, 'quantity' => 9999]
+        );
+//        dd($response,$product);
         $response->assertStatus(400);
     }
 
     public function testUpdate()
     {
-        $cart = $this->fakeUser->carts()->create();
-        $product = Product::create([
-            'title' => 'test Product',
-            'content' => 'cool',
-            'price' => 10,
-            'quantity' => 10
+//        $cart = $this->fakeUser->carts()->create();
+        $cart = Cart::factory()->create([
+            'user_id' => $this->fakeUser->id
         ]);
-        $cartItem = $cart->cartItems()->create([
-            'product_id' => $product->id,
-            'quantity' => 10,
-        ]);
+        $product = Product::factory()->create();
+//        $product = Product::create([
+//            'title' => 'test Product',
+//            'content' => 'cool',
+//            'price' => 10,
+//            'quantity' => 10
+//        ]);
+//        $cartItem = $cart->cartItems()->create([
+//            'product_id' => $product->id,
+//            'quantity' => 10,
+//        ]);
+        $cartItem = CartItem::factory()->create();
         $response = $this->call(
             'PUT',
             'cart-items/' . $cartItem->id,
@@ -82,17 +106,22 @@ class CartItemControllerTest extends TestCase
 
     public function testDestroy()
     {
-        $cart = $this->fakeUser->carts()->create();
-        $product = Product::create([
-            'title' => 'test Product',
-            'content' => 'cool',
-            'price' => 10,
-            'quantity' => 10
+//        $cart = $this->fakeUser->carts()->create();
+        $cart = Cart::factory()->create([
+            'user_id' => $this->fakeUser->id
         ]);
-        $cartItem = $cart->cartItems()->create([
-            'product_id' => $product->id,
-            'quantity' => 10,
-        ]);
+        $product = Product::factory()->create();
+//        $product = Product::create([
+//            'title' => 'test Product',
+//            'content' => 'cool',
+//            'price' => 10,
+//            'quantity' => 10
+//        ]);
+//        $cartItem = $cart->cartItems()->create([
+//            'product_id' => $product->id,
+//            'quantity' => 10,
+//        ]);
+        $cartItem = CartItem::factory()->create();
         $response = $this->call(
             'DELETE',
             'cart-items/' . $cartItem->id
