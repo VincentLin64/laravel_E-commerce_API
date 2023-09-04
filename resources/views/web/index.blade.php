@@ -6,7 +6,6 @@
         background-color: green;
     }
 </style>
-
 <div class="row">
     <div class="col-4">
         <h2>商品列表</h2>
@@ -44,6 +43,9 @@
 
     </tbody>
 </table>
+<div id="app">
+    <example-component></example-component>
+</div>
 <script>
     $(document).on('click', '.check_product', function () {
         let product_id = $(this).attr("id");
