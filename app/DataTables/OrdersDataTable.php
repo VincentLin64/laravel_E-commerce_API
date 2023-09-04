@@ -48,7 +48,7 @@ class OrdersDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->orderBy(0, 'desc')
                     ->parameters([
-                        'pageLength' => 30,
+                        'pageLength' => 25,
                         'language' => config('datatables.i18n.tw')
                     ])
                     ;
