@@ -6,14 +6,23 @@
         background-color: green;
     }
 </style>
-<h2>商品列表</h2>
-<img src="https://imgs.gvm.com.tw/upload/gallery/20221204/125075.jpg" alt="">
-<table>
+
+<div class="row">
+    <div class="col-4">
+        <h2>商品列表</h2>
+    </div>
+    <div class="col-8">
+        <img src="https://imgs.gvm.com.tw/upload/gallery/20221204/125075.jpg" alt="">
+    </div>
+</div>
+
+<table class="table table-striped">
     <thead>
         <tr>
             <td>標題</td>
             <td>內容</td>
             <td>單價</td>
+            <td></td>
             <td></td>
         </tr>
     </thead>
@@ -27,9 +36,9 @@
                 @endif
 
                 <td>{{$product->content}}</td>
-                <td style="{{ $product->price < 200 ? 'color : red; font-size:22px' : ''}}">{{$product->price}}</td>
-                <td><button class="check_product" type="button" id="{{$product->id}}">確認商品數量</button></td>
-                <td><button class="check_shared_url" type="button" id="{{$product->id}}">分享商品</button></td>
+                <td style="{{ $product->price < 200 ? 'color : red; font-size:22px' : ''}}"><i class="fa-solid fa-dollar-sign"></i>{{$product->price}}</td>
+                <td><button class="btn btn-primary check_product" type="button" id="{{$product->id}}">確認商品數量</button></td>
+                <td><button class="btn btn-warning check_shared_url" type="button" id="{{$product->id}}">分享商品</button></td>
             </tr>
         @endforeach
 
