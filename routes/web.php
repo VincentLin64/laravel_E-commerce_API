@@ -37,6 +37,7 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin'], function() {
     });
     // admin/orders
     Route::group(['prefix'=>'orders'], function(){
+        Route::get('/datatable', 'OrderController@datatable');
         Route::get('/', 'OrderController@index');
         Route::post('/{id}/delivery', 'OrderController@delivery');
         Route::get('/excel/export', 'OrderController@export');
