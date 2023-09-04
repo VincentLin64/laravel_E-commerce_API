@@ -19,9 +19,9 @@
 {{--{{DB::enableQueryLog()}}--}}
 <span>產品總數 {{ $productCount }}</span>
 <div>
-    <input type="button" class="import" value="匯入Excel">
+    <input type="button" class="import btn btn-primary btn-icon-split" value="匯入Excel">
 </div>
-<table>
+<table class="table table-striped">
     <thead>
     <tr>
         <td>編號</td>
@@ -43,11 +43,11 @@
             <td>{{ $product->quantity }}</td>
             <td>
                 @if(!empty($product->image_url))
-                    <a href="{{$product->image_url}}" target="_blank" rel="noopener noreferrer">圖片連結</a>
+                    <a class="btn btn-info btn-icon-split" href="{{$product->image_url}}" target="_blank" rel="noopener noreferrer">圖片連結</a>
                 @endif
             </td>
             <td>
-                <input type="button" class="upload_image" data-id="{{$product->id}}" value="上傳圖片">
+                <input type="button" class="upload_image btn btn-info btn-icon-split" data-id="{{$product->id}}" value="上傳圖片">
             </td>
         </tr>
     @endforeach
@@ -55,9 +55,13 @@
     </tbody>
 </table>
 <div>
-    @for($i = 1; $i < $productPages; $i++)
-        <a href="/admin/products?page={{ $i }}">第 {{ $i }} 頁</a>
-    @endfor
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            @for($i = 1; $i < $productPages; $i++)
+                <li class="page-item"><a class="page-link" href="/admin/products?page={{ $i }}">{{ $i }}</a></li>
+            @endfor
+        </ul>
+    </nav>
 </div>
 <script>
     const uploadImageModal = new bootstrap.Modal(document.getElementById('upload-image'));

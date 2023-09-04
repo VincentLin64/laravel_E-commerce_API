@@ -8,10 +8,10 @@
 {{--{{DB::enableQueryLog()}}--}}
 <span>訂單總數 {{ $orderCount }}</span>
 <div>
-    <a href="/admin/orders/excel/export">匯出訂單</a>
-    <a href="/admin/orders/excel/export-by-shipped">匯出分類訂單</a>
+    <a class="btn btn-info btn-icon-split" href="/admin/orders/excel/export">匯出訂單</a>
+    <a class="btn btn-info btn-icon-split" href="/admin/orders/excel/export-by-shipped">匯出分類訂單</a>
 </div>
-<table>
+<table class="table table-striped">
     <thead>
         <tr>
             <td>購買時間</td>
@@ -38,9 +38,13 @@
     </tbody>
 </table>
 <div>
-    @for($i = 1; $i < $orderPages; $i++)
-        <a href="/admin/orders?page={{ $i }}">第 {{ $i }} 頁</a>
-    @endfor
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            @for($i = 1; $i < $orderPages; $i++)
+                <li class="page-item"><a class="page-link" href="/admin/orders?page={{ $i }}">{{ $i }}</a></li>
+            @endfor
+        </ul>
+    </nav>
 </div>
 {{--{{dd(DB::getQueryLog())}}--}}
 @endsection
