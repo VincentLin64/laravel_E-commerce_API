@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use Illuminate\Http\Request;
+use App\Http\Services\CartService;
 
 class CartController extends Controller
 {
+    protected $cartService;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -70,9 +78,11 @@ class CartController extends Controller
 
     public function checkout() {
         $vUser = auth()->user();
+
         $vCart = $vUser->carts()->where('checkouted', false)->with('cartItems')->first();
         if ($vCart){
-            $result = $vCart->checkout();
+            $result = $this->cartService->checkout($vCart);
+//            $result = $vCart->checkout();
             return response($result);
         }else{
             return response('沒有購物車', 400);
