@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Http\Services\CartService;
+use App\Repositories\CartRepository;
 
 class CartController extends Controller
 {
     protected $cartService;
+    protected $cartRepository;
 
-    public function __construct(CartService $cartService)
+    public function __construct(CartService $cartService, CartRepository $cartRepository)
     {
         $this->cartService = $cartService;
+        $this->cartRepository = $cartRepository;
     }
 
     /**
@@ -21,10 +24,7 @@ class CartController extends Controller
     public function index()
     {
         $vUser = auth()->user();
-        $vCart = Cart::with('cartItems')
-            ->where('user_id', $vUser->id)
-            ->where('checkouted', false)
-            ->firstOrCreate(['user_id' => $vUser->id]);
+        $vCart = $this->cartRepository->scopeBelongsUser($vUser)->firstOrCreate(['user_id' => $vUser->id]);
         return response($vCart);
     }
 
