@@ -18,7 +18,7 @@ class Product extends Model
         return $this->hasMany(OrderItem::class);
     }
     public function favorite_users(){
-        return $this->belongsToMany(User::class, 'favorites');
+        return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
     }
     public function checkQuantity($iQuantity) {
         if ($this->quantity < $iQuantity){
