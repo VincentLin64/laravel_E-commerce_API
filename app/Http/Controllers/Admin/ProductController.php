@@ -18,9 +18,7 @@ class ProductController extends Controller
         $dataPerPage = 2;
         $productPages = ceil($productCounts / $dataPerPage) + 1;
         $vProducts = Product::orderBy('created_at', 'desc')
-            ->offset($dataPerPage * ($iPage - 1))
-            ->limit($dataPerPage)
-            ->get();
+            ->paginate(5);
 
         $vReturnData = ['products' => $vProducts, 'productCount'=> $productCounts, 'productPages' => $productPages];
         return view('admin.products.index', $vReturnData);
