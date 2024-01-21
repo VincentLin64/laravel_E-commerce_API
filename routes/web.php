@@ -18,51 +18,46 @@ use Illuminate\Support\Facades\Route;
 //});
 Route::get('/', 'WebController@index');
 Route::get('/contact_us', 'WebController@contactUs');
-Route::post('read-notification', 'WebController@readNotification');
+
+// auth
+Route::view('/loginPage', 'web.loginPage');
+// web - 登入
+Route::post('/login', 'AuthController@login');
+Route::group(['middleware' => 'auth'], function () {
+    // web登出
+    Route::get('/logout', 'AuthController@logout');
+    // 已讀
+    Route::post('read-notification', 'WebController@readNotification');
+});
 
 // products
-Route::group(['middleware' => 'check_dirty'], function () {
-    Route::resource('/products', 'ProductController');
+Route::group(['prefix' => 'products'], function () {
+    Route::post('/check-product', 'ProductController@checkProduct');
+    Route::get('/{id}/shared-url', 'ProductController@shareUrl');
+    Route::get('/{product_id}', 'ProductController@productDetail');
 });
-Route::post('/products/check-product', 'ProductController@checkProduct');
-Route::get('/products/{id}/shared-url', 'ProductController@shareUrl');
+
+
 
 // admin
-Route::group(['prefix'=>'admin', 'namespace'=>'Admin'], function() {
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['checkAdmin', 'auth']], function () {
+    // admin/orders
+    Route::group(['prefix' => 'orders'], function () {
+        Route::get('/', 'OrderController@index');
+        Route::get('/datatable', 'OrderController@datatable');
+        Route::get('/{order_id}', 'OrderController@index');
+        Route::get('/excel/export', 'OrderController@export');
+        Route::get('{order_id}/excel/export', 'OrderController@export');
+        Route::get('/excel/export-by-shipped', 'OrderController@exportByShipped');
+    });
     // admin/products
-    Route::group(['prefix'=>'products'], function(){
+    Route::group(['prefix' => 'products'], function () {
         Route::get('/', 'ProductController@index');
         Route::post('/upload-image', 'ProductController@uploadImage');
         Route::post('/excel/import', 'ProductController@importExcel');
     });
-    // admin/orders
-    Route::group(['prefix'=>'orders'], function(){
-        Route::get('/datatable', 'OrderController@datatable');
-        Route::get('/', 'OrderController@index');
-        Route::post('/{id}/delivery', 'OrderController@delivery');
-        Route::get('/excel/export', 'OrderController@export');
-        Route::get('/excel/export-by-shipped', 'OrderController@exportByShipped');
-
-    });
-
-    // admin/tools
-    Route::group(['prefix'=>'tools'], function(){
-        Route::post('/update-product-price', 'ToolController@updateProductPrice');
-        Route::post('/create-product-redis', 'ToolController@createProductRedis');
-    });
-
 });
 
-// auth
-Route::post('/signup', 'AuthController@signup');
-Route::post('/login', 'AuthController@login');
-Route::group(['middleware' => 'auth:api'], function (){
-    Route::get('/user','AuthController@user');
-    Route::get('/logout', 'AuthController@logout');
 
-    Route::resource('/carts', 'CartController');
-    Route::resource('/cart-items', 'CartItemController');
-    Route::post('/carts/checkout', 'CartController@checkout');
-});
 
 
