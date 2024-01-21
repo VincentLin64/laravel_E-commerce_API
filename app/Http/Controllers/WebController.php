@@ -6,25 +6,24 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Support\Facades\Auth;
 
 class WebController extends Controller
 {
     public $notifications = [];
     public function __construct()
     {
-        $user = User::find(1);
-        $this->notifications = $user->notifications ?? [];
+        
     }
 
     //
     public function index() {
         $vProduct = Product::all();
-
-        return view('web.index', ['products'=>$vProduct, 'notifications' => $this->notifications]);
+        return view('web.index', ['products'=>$vProduct, 'notifications' => $this->getNotification()]);
     }
 
     public function contactUs() {
-        return view('web.contact_us', ['notifications' => $this->notifications]);
+        return view('web.contact_us', ['notifications' => $this->getNotification()]);
     }
 
     public function readNotification(Request $request) {
@@ -32,5 +31,10 @@ class WebController extends Controller
         $id = $vInput['id'];
         DatabaseNotification::find($id)->markAsRead();
         return response(['result'=>true]);
+    }
+
+    public function getNotification(){
+        $user = Auth::user();
+        return $user->notifications ?? [];
     }
 }
