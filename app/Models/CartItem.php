@@ -26,7 +26,7 @@ class CartItem extends Model
     ];
 
     public function getCurrentPriceAttribute() {
-        return $this->quantity * 10;
+        return $this->quantity * $this->product->price;
     }
 
     public function product() {
