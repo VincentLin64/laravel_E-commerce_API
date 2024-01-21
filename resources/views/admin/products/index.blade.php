@@ -19,7 +19,7 @@
 {{--{{DB::enableQueryLog()}}--}}
 <span>產品總數 {{ $productCount }}</span>
 <div>
-    <input type="button" class="import btn btn-primary btn-icon-split" value="匯入Excel">
+    <input type="button" class="import btn btn-primary btn-icon-split" value="匯入Excel" >
 </div>
 <table class="table table-striped">
     <thead>
@@ -47,7 +47,7 @@
                 @endif
             </td>
             <td>
-                <input type="button" class="upload_image btn btn-info btn-icon-split" data-id="{{$product->id}}" value="上傳圖片">
+                <input type="button" class="upload_image btn btn-info btn-icon-split" data-id="{{$product->id}}"  value="上傳圖片">
             </td>
         </tr>
     @endforeach
@@ -55,14 +55,9 @@
     </tbody>
 </table>
 <div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            @for($i = 1; $i < $productPages; $i++)
-                <li class="page-item"><a class="page-link" href="/admin/products?page={{ $i }}">{{ $i }}</a></li>
-            @endfor
-        </ul>
-    </nav>
+    {!! $products->links('pagination.custom') !!}
 </div>
+
 <script>
     const uploadImageModal = new bootstrap.Modal(document.getElementById('upload-image'));
     const importExcelModal = new bootstrap.Modal(document.getElementById('import'));
