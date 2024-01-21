@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('content')->comment('內容');
             $table->integer('price')->unsigned()->comment('單價');
             $table->integer('quantity')->unsigned()->comment('數量');
+            $table->string('unit_name')->comment('單位');
             $table->timestamps();
         });
     }

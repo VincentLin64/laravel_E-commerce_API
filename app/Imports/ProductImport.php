@@ -19,6 +19,7 @@ class ProductImport implements ToModel
             'content' => $row[1],
             'price' => $row[2],
             'quantity' => $row[3],
+            'unit_name' => $row[4]
         ]);
     }
 }
