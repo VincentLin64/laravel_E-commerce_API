@@ -26,7 +26,7 @@ class ShortUrlService
 
             $vResponse = $this->client->request(
                 'POST',
-                "https://api.pics.ee/v1/links/?access_token=$accessToken",
+                "https://api.pics.ee/v1/links?access_token=$accessToken",
                 [
                     'headers' => ['Content-Type' => 'application/json'],
                     'body' => json_encode($data)
