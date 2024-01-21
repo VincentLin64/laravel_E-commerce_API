@@ -1,6 +1,6 @@
 @extends('layout.app')
 @section('content')
-<h3>聯絡我們</h3>
+<h3 class="text-center">聯絡我們</h3>
 <form action="">
     <div class="form-group mb-3">
         <label for="name" class="form-label">請問你是：</label>
