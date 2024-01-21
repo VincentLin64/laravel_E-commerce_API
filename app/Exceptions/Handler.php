@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Models\LogError;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,7 +27,8 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            //
+
+
             $user = auth()->user();
             LogError::create([
                 'user_id' => $user->id ?? 0,
@@ -45,8 +47,12 @@ class Handler extends ExceptionHandler
             ]);
         });
 
+        $this->renderable(function (NotFoundHttpException $e){
+            return response()->view('errors.404', [], 404);
+        });
+
         $this->renderable(function (Throwable $e){
-            return response()->view('error');
+            return response()->view('error', [], 500);
         });
     }
     protected function unauthenticated($request, AuthenticationException $exception)
