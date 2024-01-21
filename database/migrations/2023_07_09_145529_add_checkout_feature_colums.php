@@ -12,7 +12,8 @@ return new class extends Migration {
     {
         //
         Schema::table('order_items', function (Blueprint $table) {
-            $table->integer('price')->after('order_id');
+            $table->integer('quantity')->after('order_id');
+            $table->integer('price')->after('quantity');
         });
         Schema::table('users', function (Blueprint $table) {
             $table->integer('level')->default(1)->after('id');
@@ -26,6 +27,7 @@ return new class extends Migration {
     {
         //
         Schema::table('order_items', function (Blueprint $table) {
+            $table->dropColumn('quantity');
             $table->dropColumn('price');
         });
         Schema::table('users', function (Blueprint $table) {
