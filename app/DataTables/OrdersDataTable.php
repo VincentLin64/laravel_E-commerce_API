@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -22,9 +23,11 @@ class OrdersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-//            ->addColumn('action', 'orders.action')
-            ->editColumn('action', function ($model){
-                $html = '<a class="btn btn-success" href="'.$model->id.'">查看</a>';
+            ->addColumn('user_name', function ($model) {
+                return $model->user->name;
+            })
+            ->editColumn('action', function ($model) {
+                $html = '<a class="btn btn-success" href="' . $model->id . '">查看</a>';
                 return $html;
             })
             ->setRowId('id');
@@ -35,7 +38,7 @@ class OrdersDataTable extends DataTable
      */
     public function query(Order $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->with('user');
     }
 
     /**
@@ -64,13 +67,13 @@ class OrdersDataTable extends DataTable
             new Column([
                 'title' => '是否運送',
                 'data' => 'is_shipped',
-                'attributes' => [
-                    'data-try' => 'test data'
-                ]
             ]),
-            Column::make('is_shipped'),
             Column::make('created_at'),
             Column::make('updated_at'),
+            new Column([
+                'title' => '使用者',
+                'data' => 'user_name',
+            ]),
             Column::make('user_id'),
             new Column([
                 'title' => '功能',
