@@ -62,7 +62,8 @@ class CartItemController extends Controller
             'product_id' => $vProduct->id,
             'quantity' => $vValidData['quantity']
         ]);
-        return response()->json($vResult);
+        $vCart = Cart::find($vValidData['cart_id'])->cartItems()->get();
+        return response()->json($vCart);
     }
 
     /**
@@ -87,6 +88,7 @@ class CartItemController extends Controller
     public function update(UpdateCartItem $request, string $id)
     {
         $vInput = $request->validated();
+
         $vItem = CartItem::find($id);
         // 先填上不儲存(fill=>save)
         // $item->fill(['quantity'=> $vInput['quantity']]);
