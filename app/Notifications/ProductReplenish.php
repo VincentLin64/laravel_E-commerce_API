@@ -38,9 +38,9 @@ class ProductReplenish extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -52,7 +52,7 @@ class ProductReplenish extends Notification
     {
         return [
             //
-            'Your Product '. $this->product->title. ' replenished'
+            'msg' => '您喜愛的商品 ( ' . $this->product->title . ' ) 補貨囉'
         ];
     }
 }
