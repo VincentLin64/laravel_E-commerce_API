@@ -4,11 +4,17 @@
 <h2>後台 - 訂單列表</h2>
 @php
 //use Illuminate\Support\Facades\DB;
+$iRouteOrderId = request()->route('order_id') ?? 0;
 @endphp
 {{--{{DB::enableQueryLog()}}--}}
 <span>訂單總數 {{ $orderCount }}</span>
 <div>
-    <a class="btn btn-info btn-icon-split" href="/admin/orders/excel/export">匯出訂單</a>
+    @if($iRouteOrderId)
+        <a class="btn btn-info btn-icon-split" href="/admin/orders/{{ $iRouteOrderId }}/excel/export/">匯出訂單</a>
+    @else
+        <a class="btn btn-info btn-icon-split" href="/admin/orders/excel/export">匯出訂單</a>
+    @endif
+
     <a class="btn btn-info btn-icon-split" href="/admin/orders/excel/export-by-shipped">匯出分類訂單</a>
 </div>
 <table class="table table-striped">
@@ -22,29 +28,30 @@
         </tr>
     </thead>
     <tbody>
-    @foreach($orders as $order)
+    @forelse($orders as $order)
         <tr>
             <td>{{ $order->created_at }}</td>
             <td>{{ $order->user->name }}</td>
+            <td>
             @foreach($order->orderItems as $orderItem)
-                <td>{{ $orderItem->product->title }}</td> &nbsp;
+
+                {{ $orderItem->product->title }} * {{$orderItem->quantity}} <span>({{$orderItem->product->price * $orderItem->quantity}} 元)</span><br>
             @endforeach
+            </td> &nbsp;
 
             <td>{{ isset($order->orderItems) ? $order->orderItems->sum('price') : 0 }}</td>
             <td>{{ $order->is_shipped }}</td>
         </tr>
-    @endforeach
+    @empty
+        <tr>
+            <td class="table-warning" colspan="5" style="text-align: center">無訂單資料</td>
+        </tr>
+    @endforelse
 
     </tbody>
 </table>
 <div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            @for($i = 1; $i < $orderPages; $i++)
-                <li class="page-item"><a class="page-link" href="/admin/orders?page={{ $i }}">{{ $i }}</a></li>
-            @endfor
-        </ul>
-    </nav>
+    {!! $orders->links('pagination.custom') !!}
 </div>
 {{--{{dd(DB::getQueryLog())}}--}}
 @endsection
