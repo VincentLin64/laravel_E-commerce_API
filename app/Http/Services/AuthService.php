@@ -6,6 +6,6 @@ class AuthService
 {
     public function fakeReturn()
     {
-        dump('123');
+//        dump('123');
     }
 }
