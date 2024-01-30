@@ -7,7 +7,7 @@
 $iRouteOrderId = request()->route('order_id') ?? 0;
 @endphp
 {{--{{DB::enableQueryLog()}}--}}
-<span>訂單總數 {{ $orderCount }}</span>
+<span>訂單總數 {{ count($orders) }}</span>
 <div>
     @if($iRouteOrderId)
         <a class="btn btn-info btn-icon-split" href="/admin/orders/{{ $iRouteOrderId }}/excel/export/">匯出訂單</a>

@@ -28,7 +28,7 @@ class OrdersExport implements FromCollection, WithHeadings, WithColumnFormatting
     public function collection()
     {
         if (isset($this->orderId)) {
-            $orders = Order::findOrFail($this->orderId)->with(['user', 'cart.cartItems.product'])->get();
+            $orders = Order::where('id', $this->orderId)->with(['user', 'cart.cartItems.product'])->get();
         } else {
             $orders = Order::with(['user', 'cart.cartItems.product'])->get();
         }

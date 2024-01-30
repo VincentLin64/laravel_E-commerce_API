@@ -18,21 +18,16 @@ class OrderController extends Controller
 {
     //
     public function index(Request $request) {
-        $dataPerPage = 5;
         $iGetOrderId = $request->route('order_id');
-        $iPage = $request->input('page', 1);
         if ($iGetOrderId) {
-            $orderCounts = Order::findOrFail($iGetOrderId)->whereHas('orderItems')->count();
+            $vOrders = Order::where('id', $iGetOrderId)->whereHas('orderItems');
         } else {
-            $orderCounts = Order::whereHas('orderItems')->count();
+            $vOrders = Order::whereHas('orderItems');
         }
-        $vOrders = Order::orderBy('created_at', 'desc')
+        $vOrders = $vOrders->orderBy('created_at', 'desc')
             ->with(['user', 'orderItems.product', 'cart.cartItems'])
-            ->whereHas('orderItems')
             ->paginate(5);
-//        $orderPages = ceil($orderCounts / $dataPerPage) + 1;
-
-        $vReturnData = ['orders' => $vOrders, 'orderCount' => $orderCounts];
+        $vReturnData = ['orders' => $vOrders];
         return view('admin.orders.index', $vReturnData);
     }
 
