@@ -5,6 +5,5 @@
 @endsection
 
 @push('scripts')
-    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+    {{ $dataTable->scripts() }}
 @endpush
-{{--<script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>--}}

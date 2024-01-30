@@ -5,14 +5,23 @@
  */
 
 import './bootstrap';
-import { createApp } from 'vue';
+// bootstrap
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
+// jquery
+import $ from 'jquery';
+window.jQuery = window.$ = $;
+// laravel-datatables
+import 'laravel-datatables-vite';
+
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready
  * to use in your application's views. An example is included for you.
  */
-
+// Vue
+import { createApp } from 'vue';
 const app = createApp({});
 
 import ExampleComponent from './components/ExampleComponent.vue';

@@ -1,5 +1,7 @@
-import 'bootstrap';
-
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
+import * as $ from 'jquery';
+window.$ = window.jQuery = $;
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
