@@ -16,8 +16,8 @@ class ProductSeeder extends Seeder
         //
         Product::upsert(
             [
-                ['id' => '1', 'title' => '固定資料', 'content' => '固定內容', 'price' => rand(0, 200), 'quantity' => rand(1, 50)],
-                ['id' => '2', 'title' => '固定資料', 'content' => '固定內容', 'price' => rand(0, 200), 'quantity' => rand(1, 50)]
+                ['id' => '1', 'title' => '固定資料', 'content' => '固定內容', 'unit_name' => '個', 'price' => rand(0, 200), 'quantity' => rand(1, 50)],
+                ['id' => '2', 'title' => '固定資料', 'content' => '固定內容', 'unit_name' => '個', 'price' => rand(0, 200), 'quantity' => rand(1, 50)]
             ],
             ['id'],
             ['price', 'quantity']

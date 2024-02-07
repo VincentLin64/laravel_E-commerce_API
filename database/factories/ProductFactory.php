@@ -21,9 +21,9 @@ class ProductFactory extends Factory
     {
         return [
             //
-            'id' => $this->faker->randomDigit(),
             'title' => '測試產品',
             'content' => $this->faker->word,
+            'unit_name' => '個',
             'price' => $this->faker->numberBetween(100, 1000),
             'quantity' => $this->faker->numberBetween(10, 100)
         ];

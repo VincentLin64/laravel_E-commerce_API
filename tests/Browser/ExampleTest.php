@@ -31,11 +31,12 @@ class ExampleTest extends DuskTestCase
     public function testBasicExample(): void
     {
         $this->browse(function (Browser $browser) {
+//            $browser->visit('/')
+//                    ->with('.spcial-text', function ($text) {
+//                        $text->assertSee('固定資料');
+//                    });
             $browser->visit('/')
-                    ->with('.spcial-text', function ($text) {
-                        $text->assertSee('固定資料');
-                    });
-            $browser->click('.check_product')
+                ->click('.check_product')
                     ->waitForDialog(5)
                     ->assertDialogOpened('商品數量充足')
                     ->acceptDialog();

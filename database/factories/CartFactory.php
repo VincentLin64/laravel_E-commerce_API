@@ -21,7 +21,7 @@ class CartFactory extends Factory
     {
         return [
             //
-            'id' => $this->faker->randomDigit(),
+//            'id' => $this->faker->randomDigit(),
             'user_id' => User::factory()
         ];
     }

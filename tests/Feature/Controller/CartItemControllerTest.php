@@ -37,29 +37,17 @@ class CartItemControllerTest extends TestCase
 //        $cart = $this->fakeUser->carts()->create();
         $cart = Cart::factory()->create();
         $product = Product::factory()->create();
-//        $product = Product::create([
-//            'title' => 'test Product',
-//            'content' => 'cool',
-//            'price' => 10,
-//            'quantity' => 10
-//        ]);
         $response = $this->call(
             'POST',
-            'cart-items',
+            'api/cart-items',
             ['cart_id' => $cart->id, 'product_id' => $product->id, 'quantity' => 2]
         );
         $response->assertOk();
 
         $product = Product::factory()->less()->create();
-//        $product = Product::create([
-//            'title' => 'test Product',
-//            'content' => 'cool',
-//            'price' => 10,
-//            'quantity' => 10
-//        ]);
         $response = $this->call(
             'POST',
-            'cart-items',
+            'api/cart-items',
             ['cart_id' => $cart->id, 'product_id' => $product->id, 'quantity' => 10]
         );
 
@@ -67,7 +55,7 @@ class CartItemControllerTest extends TestCase
 
         $response = $this->call(
             'POST',
-            'cart-items',
+            'api/cart-items',
             ['cart_id' => $cart->id, 'product_id' => $product->id, 'quantity' => 9999]
         );
 //        dd($response,$product);
@@ -76,25 +64,13 @@ class CartItemControllerTest extends TestCase
 
     public function testUpdate()
     {
-//        $cart = $this->fakeUser->carts()->create();
         $cart = Cart::factory()->create([
             'user_id' => $this->fakeUser->id
         ]);
-        $product = Product::factory()->create();
-//        $product = Product::create([
-//            'title' => 'test Product',
-//            'content' => 'cool',
-//            'price' => 10,
-//            'quantity' => 10
-//        ]);
-//        $cartItem = $cart->cartItems()->create([
-//            'product_id' => $product->id,
-//            'quantity' => 10,
-//        ]);
         $cartItem = CartItem::factory()->create();
         $response = $this->call(
             'PUT',
-            'cart-items/' . $cartItem->id,
+            'api/cart-items/' . $cartItem->id,
             ['quantity' => 1]
         );
         $this->assertEquals('true', $response->getContent());
@@ -106,25 +82,14 @@ class CartItemControllerTest extends TestCase
 
     public function testDestroy()
     {
-//        $cart = $this->fakeUser->carts()->create();
         $cart = Cart::factory()->create([
             'user_id' => $this->fakeUser->id
         ]);
         $product = Product::factory()->create();
-//        $product = Product::create([
-//            'title' => 'test Product',
-//            'content' => 'cool',
-//            'price' => 10,
-//            'quantity' => 10
-//        ]);
-//        $cartItem = $cart->cartItems()->create([
-//            'product_id' => $product->id,
-//            'quantity' => 10,
-//        ]);
         $cartItem = CartItem::factory()->create();
         $response = $this->call(
             'DELETE',
-            'cart-items/' . $cartItem->id
+            'api/cart-items/' . $cartItem->id
         );
         $response->assertOk();
         $cartItem = CartItem::find($cartItem->id);
